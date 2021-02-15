@@ -1,7 +1,11 @@
 <template>
   <div id="app" class="w-50 m-4 ">
-    <userForm class="border p-4"/>
-    <todoList class="mt-4" />
+    <userForm @formSubmit ="saveForm"
+              ref="myFormModel"
+              class="border p-4"/>
+    <todoList :todoList ="todoList"
+              @updateForm="updateForm"
+              class="mt-4" />
   </div>
 </template>
 
@@ -15,9 +19,27 @@ export default {
     userForm,
     todoList
   },
+  methods: {
+    saveForm(form) {
+      if (!form.updateMod ){
+        console.log(form.updateMod);
+        this.todoList.push({...form});
+      }
+      else {
+        const index = this.todoList.findIndex(data => data.id === this.$refs.myFormModel.formModel.id);
+        this.todoList.splice(index, 1, form)
+        this.updateMod = false;
+
+      }
+
+    },
+    updateForm(list) {
+      this.$refs.myFormModel.formModel = {...list }
+    }
+  },
   data() {
     return {
-      todoList: []
+      todoList: [],
     }
   },
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form>
+    <form @submit.prevent="saveForm">
       <div class="form-group">
         <label for="title">Title</label>
         <input type="text"
@@ -29,7 +29,7 @@
           <option>COMPLETED</option>
         </select>
         <br>
-        <button type="submit" class="btn btn-primary w-100">Add New</button>
+        <button type="submit" class="btn btn-primary w-100"  >{{ buttonText }}</button>
       </div>
 
     </form>
@@ -40,16 +40,39 @@
 
 <script>
 export default {
-name: "userForm",
+  name: "userForm",
   data() {
     return {
-      formModel : {
-        title : "",
-        description : "",
-        status : ""
+      formModel: {
+        title: "",
+        description: "",
+        status: "",
+        updateMod : false
       }
     }
   },
+  methods: {
+    saveForm() {
+      this.formModel.id = new Date().getTime();
+      this.$emit('formSubmit', {...this.formModel});
+      this.clearForm();
+    },
+
+    clearForm() {
+      this.formModel = {
+        title: "",
+        description: "",
+        status: "",
+        updateMod : false
+      }
+    }
+  },
+  computed: {
+    buttonText() {
+      return this.formModel.updateMod === true ? 'Update' : 'Add New' ;
+    }
+  },
+
 }
 </script>
 
