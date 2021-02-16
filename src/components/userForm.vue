@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       formModel: {
+        id : null,
         title: "",
         description: "",
         status: "",
@@ -53,7 +54,6 @@ export default {
   },
   methods: {
     saveForm() {
-      this.formModel.id = new Date().getTime();
       this.$emit('formSubmit', {...this.formModel});
       this.clearForm();
     },

@@ -22,13 +22,13 @@ export default {
   methods: {
     saveForm(form) {
       if (!form.updateMod ){
-        console.log(form.updateMod);
+        form.id = new Date().getTime();
         this.todoList.push({...form});
       }
       else {
         const index = this.todoList.findIndex(data => data.id === this.$refs.myFormModel.formModel.id);
         this.todoList.splice(index, 1, form)
-        this.updateMod = false;
+        form.updateMod = false;
 
       }
 
