@@ -1,39 +1,49 @@
 <template>
   <div>
-    <form @submit.prevent="saveForm">
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text"
-               v-model="formModel.title"
-               class="form-control"
-               id="title"
-               placeholder="Please enter title">
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
+    <ValidationObserver v-slot="{ handleSubmit }">
+      <form @submit.prevent="handleSubmit(saveForm)">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <ValidationProvider mode="passive" rules="required" v-slot="{ errors }">
+            <input type="text"
+                   v-model="formModel.title"
+                   class="form-control"
+                   id="title"
+                   placeholder="Please enter title">
+            <span class="text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <ValidationProvider mode="passive" rules="required" v-slot="{ errors }">
         <textarea class="form-control"
                   v-model="formModel.description"
                   id="description"
                   placeholder="Please enter information"
                   rows="2"
         ></textarea>
-      </div>
-      <div class="form-group">
-        <label for="status">Status</label>
-        <select class="form-control"
-                v-model="formModel.status"
-                id="status">
-          <option value="" disabled selected>Please select</option>
-          <option>WAITING</option>
-          <option>IN PROGRESS</option>
-          <option>COMPLETED</option>
-        </select>
-        <br>
-        <button type="submit" class="btn btn-primary w-100"  >{{ buttonText }}</button>
-      </div>
+            <span class="text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <ValidationProvider mode="passive" rules="required" v-slot="{ errors }">
+            <select class="form-control"
+                    v-model="formModel.status"
+                    id="status">
+              <option value="" disabled selected>Please select</option>
+              <option>WAITING</option>
+              <option>IN PROGRESS</option>
+              <option>COMPLETED</option>
+            </select>
+            <span class="text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+          <br>
+          <button type="submit" class="btn btn-primary w-100">{{ buttonText }}</button>
+        </div>
 
-    </form>
-
+      </form>
+    </ValidationObserver>
   </div>
 
 </template>
@@ -44,11 +54,11 @@ export default {
   data() {
     return {
       formModel: {
-        id : null,
+        id: null,
         title: "",
         description: "",
         status: "",
-        updateMod : false
+        updateMod: false
       }
     }
   },
@@ -63,13 +73,13 @@ export default {
         title: "",
         description: "",
         status: "",
-        updateMod : false
+        updateMod: false
       }
     }
   },
   computed: {
     buttonText() {
-      return this.formModel.updateMod === true ? 'Update' : 'Add New' ;
+      return this.formModel.updateMod === true ? 'Update' : 'Add New';
     }
   },
 
